@@ -34,7 +34,7 @@
                         <td th:text="${employee.managerName != null ? employee.managerName : '-'}"></td>
                         <td>
                             <a class="btn btn-sm btn-primary" th:href="@{/employee/getById/{id}(id=${employee.id})}">View</a>
-                            <a class="btn btn-sm btn-secondary" href="#">Edit</a>
+                            <a class="btn btn-sm btn-secondary" th:href="@{/employee/edit/{id}(id=${employee.id})}">Edit</a>
                         </td>
                     </tr>
                 </tbody>

@@ -2,6 +2,7 @@ package com.demo.employeemanagement.controller;
 
 import com.demo.employeemanagement.dto.DepartmentDto;
 import com.demo.employeemanagement.dto.EmployeeRequestDto;
+import com.demo.employeemanagement.dto.EmployeeResponseDto;
 import com.demo.employeemanagement.service.DepartmentService;
 import com.demo.employeemanagement.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -45,6 +46,22 @@ public class EmployeeViewController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("employee", new EmployeeRequestDto());
+        model.addAttribute("managers", employeeService.getAll());
+        return "employee-form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        EmployeeResponseDto employee = employeeService.getById(id);
+        model.addAttribute("employee", employee);
+        System.out.println("DOB value: " + employee.getDob());
+        System.out.println("DOB type: " +
+                                   (employee.getDob() != null ? employee.getDob().getClass().getName() : "null"));
+        System.out.println("Expected format: yyyy-MM-dd");
+        model.addAttribute("managers", employeeService.getAll()
+                                                                    .stream()
+                                                                    .filter(e -> !e.getId().equals(id))
+                                                                    .toList());
         return "employee-form";
     }
 
