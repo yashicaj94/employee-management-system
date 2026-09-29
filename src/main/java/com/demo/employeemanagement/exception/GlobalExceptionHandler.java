@@ -1,5 +1,6 @@
 package com.demo.employeemanagement.exception;
 
+import com.demo.employeemanagement.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,28 +16,40 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({ResourceNotFoundException.class})
-    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException exception) {
+    public ResponseEntity<ApiResponse<Object>> handleResourceNotFoundException(ResourceNotFoundException exception) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage(exception.getMessage());
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+                .body(apiResponse);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ApiResponse<Map<String, List<String>>>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException exception) {
         Map<String, List<String>> errors = exception.getBindingResult().getFieldErrors().stream().collect(
                 Collectors.groupingBy(FieldError::getField,
                                       Collectors.mapping(
                                               FieldError::getDefaultMessage,
                                               Collectors.toList())));
+
+        ApiResponse<Map<String, List<String>>> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage("Validation failed");
+        apiResponse.setData(errors);
+
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(errors);
+                .body(apiResponse);
     }
 
     @ExceptionHandler({IllegalArgumentException.class})
-    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException exception) {
+    public ResponseEntity<ApiResponse<Object>> handleIllegalArgumentException(IllegalArgumentException exception) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage(exception.getMessage());
+
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(exception.getMessage());
+                .body(apiResponse);
     }
 }
