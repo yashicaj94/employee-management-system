@@ -27,6 +27,16 @@ A Spring Boot application for managing employee records.
 - Salary
 - Manager (optional)
 
+## Prerequisites
+
+- JDK 17
+
+Ensure Java 17 is being used before running the application:
+
+```bash
+java -version
+```
+
 ## Running the Application
 
 Clone the repository:
