@@ -52,4 +52,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(apiResponse);
     }
+
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<ApiResponse<Object>> handleException(Exception exception) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage(exception.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(apiResponse);
+    }
 }
