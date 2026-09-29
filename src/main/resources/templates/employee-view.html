@@ -24,7 +24,7 @@
 
             <tr>
                 <th>Date of Birth</th>
-                <td th:text="${employee.dob}"></td>
+                <td th:text="${#temporals.format(employee.dob, 'dd/MM/yyyy')}"></td>
             </tr>
 
             <tr>
