@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="padding-top: 70px;">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div class="container">
+        <h2>Employee Details</h2>
+
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th>First Name</th>
+                <td th:text="${employee.firstName}"></td>
+            </tr>
+
+            <tr>
+                <th>Last Name</th>
+                <td th:text="${employee.lastName}"></td>
+            </tr>
+
+            <tr>
+                <th>Date of Birth</th>
+                <td th:text="${employee.dob}"></td>
+            </tr>
+
+            <tr>
+                <th>Department</th>
+                <td th:text="${employee.departmentName}"></td>
+            </tr>
+
+            <tr>
+                <th>Salary</th>
+                <td th:text="${employee.salary}"></td>
+            </tr>
+
+            <tr>
+                <th>Manager</th>
+                <td th:text="${employee.managerName != null ? employee.managerName : '-'}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-secondary"
+           th:href="@{/employee/getAll}">
+            Back
+        </a>
+
+        <a class="btn btn-primary"
+           th:href="@{/employee/form/{id}(id=${employee.id})}">
+            Edit
+        </a>
+
+    </div>
+</body>
+</html>
