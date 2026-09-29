@@ -54,10 +54,7 @@ public class EmployeeViewController {
     public String edit(@PathVariable("id") Long id, Model model) {
         EmployeeResponseDto employee = employeeService.getById(id);
         model.addAttribute("employee", employee);
-        System.out.println("DOB value: " + employee.getDob());
-        System.out.println("DOB type: " +
-                                   (employee.getDob() != null ? employee.getDob().getClass().getName() : "null"));
-        System.out.println("Expected format: yyyy-MM-dd");
+        
         model.addAttribute("managers", employeeService.getAll()
                                                                     .stream()
                                                                     .filter(e -> !e.getId().equals(id))
