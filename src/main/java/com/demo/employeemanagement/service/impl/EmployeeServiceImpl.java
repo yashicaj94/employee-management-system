@@ -3,6 +3,7 @@ package com.demo.employeemanagement.service.impl;
 import com.demo.employeemanagement.dto.EmployeeRequestDto;
 import com.demo.employeemanagement.dto.EmployeeResponseDto;
 import com.demo.employeemanagement.entity.Employee;
+import com.demo.employeemanagement.exception.ResourceNotFoundException;
 import com.demo.employeemanagement.repository.DepartmentRepository;
 import com.demo.employeemanagement.repository.EmployeeRepository;
 import com.demo.employeemanagement.service.EmployeeService;
@@ -36,17 +37,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponseDto getById(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Employee" + " not found"));
+                () -> new ResourceNotFoundException("Employee not found"));
         return toDto(employee);
     }
 
     @Override
     public EmployeeResponseDto save(EmployeeRequestDto dto) {
-        Employee employee = null;
+        Employee employee;
         if (dto.getId() != null) {
-            employee = employeeRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Employee not " +
-                                                                                                               "found"
-            ));
+            employee = employeeRepository.findById(dto.getId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Employee not found"
+                    ));
         } else {
             employee = new Employee();
         }
@@ -55,14 +56,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastName(dto.getLastName());
         employee.setDob(dto.getDob());
         employee.setDepartment(departmentRepository.findById(dto.getDepartmentId())
-                                       .orElseThrow(() -> new RuntimeException("Department not " +
-                                                                                       "found"
+                                       .orElseThrow(() -> new ResourceNotFoundException("Department not found"
                                        )));
         employee.setSalary(dto.getSalary());
         if (dto.getManagerId() != null) {
             employee.setManager(employeeRepository.findById(dto.getManagerId())
-                                        .orElseThrow(() -> new RuntimeException("Manager not " +
-                                                                                        "found"
+                                        .orElseThrow(() -> new ResourceNotFoundException("Manager not found"
                                         )));
         } else {
             employee.setManager(null);
