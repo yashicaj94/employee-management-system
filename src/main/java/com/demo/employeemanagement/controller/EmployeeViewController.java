@@ -64,9 +64,17 @@ public class EmployeeViewController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("employee") EmployeeRequestDto dto,
-                       BindingResult bindingResult) {
+                       BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+            if(dto.getId() == null) {
+                model.addAttribute("managers", employeeService.getAll());
+            } else {
+                model.addAttribute("managers", employeeService.getAll()
+                        .stream()
+                        .filter(e -> !e.getId().equals(dto.getId()))
+                        .toList());
+            }
             return "employee-form";
         }
 
