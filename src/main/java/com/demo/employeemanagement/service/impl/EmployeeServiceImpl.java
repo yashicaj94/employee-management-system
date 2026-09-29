@@ -60,9 +60,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                                        )));
         employee.setSalary(dto.getSalary());
         if (dto.getManagerId() != null) {
-            employee.setManager(employeeRepository.findById(dto.getManagerId())
-                                        .orElseThrow(() -> new ResourceNotFoundException("Manager not found"
-                                        )));
+            if (dto.getManagerId().equals(dto.getId())) {
+                throw new IllegalArgumentException("Employee cannot be their own manager");
+            } else {
+                employee.setManager(employeeRepository.findById(dto.getManagerId())
+                                            .orElseThrow(() -> new ResourceNotFoundException("Manager not found"
+                                            )));
+            }
         } else {
             employee.setManager(null);
         }
