@@ -41,4 +41,8 @@ public class Employee {
     @JoinColumn(name = "manager_id")
 	private Employee manager;
 
+    @Column(length=1000000)
+    @Lob
+    private byte[] profileImage;
+
 }

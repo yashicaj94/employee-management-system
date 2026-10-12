@@ -6,11 +6,15 @@ import com.demo.employeemanagement.dto.EmployeeResponseDto;
 import com.demo.employeemanagement.service.DepartmentService;
 import com.demo.employeemanagement.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -59,12 +63,14 @@ public class EmployeeViewController {
                                                                     .stream()
                                                                     .filter(e -> !e.getId().equals(id))
                                                                     .toList());
+        model.addAttribute("profileImageBase64", employee.getProfileImageBase64());
         return "employee-form";
     }
 
-    @PostMapping("/save")
+    @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String save(@Valid @ModelAttribute("employee") EmployeeRequestDto dto,
-                       BindingResult bindingResult, Model model) {
+                       BindingResult bindingResult, Model model,
+                       @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) throws IOException {
 
         if (bindingResult.hasErrors()) {
             if(dto.getId() == null) {
@@ -74,11 +80,12 @@ public class EmployeeViewController {
                         .stream()
                         .filter(e -> !e.getId().equals(dto.getId()))
                         .toList());
+                model.addAttribute("profileImageBase64", employeeService.getById(dto.getId()).getProfileImageBase64());
             }
             return "employee-form";
         }
 
-        employeeService.save(dto);
+        employeeService.save(dto, profileImage);
 
         return "redirect:/employee/getAll";
     }

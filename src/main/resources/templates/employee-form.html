@@ -10,7 +10,7 @@
 <div class="container">
     <h2 th:text="${employee.id == null ? 'Add Employee' : 'Edit Employee'}"></h2>
 
-    <form th:action="@{/employee/save}" th:object="${employee}" method="post">
+    <form th:action="@{/employee/save}" th:object="${employee}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
         <div class="mb-3">
             <label class="form-label">First Name:</label>
@@ -74,6 +74,17 @@
                         th:value="${manager.id}"
                         th:text="${manager.firstName + ' ' + manager.lastName}"></option>
             </select>
+        </div>
+        <div>
+            <label class="form-label">Profile image:</label>
+            <input type="file" name="profileImage" accept="image/*" class="form-control-file">
+        </div>
+        <div class="mb-3"
+             th:if="${profileImageBase64 != null}">
+            <div>
+                <img th:src="'data:image/jpeg;base64,' + ${profileImageBase64}"
+                     width="120" alt="Profile image">
+            </div>
         </div>
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary">Save changes</button>

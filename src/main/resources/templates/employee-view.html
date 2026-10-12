@@ -12,35 +12,49 @@
 
         <table class="table table-bordered">
             <tbody>
-            <tr>
-                <th>First Name</th>
-                <td th:text="${employee.firstName}"></td>
-            </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td th:text="${employee.firstName}"></td>
+                </tr>
 
-            <tr>
-                <th>Last Name</th>
-                <td th:text="${employee.lastName}"></td>
-            </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td th:text="${employee.lastName}"></td>
+                </tr>
 
-            <tr>
-                <th>Date of Birth</th>
-                <td th:text="${#temporals.format(employee.dob, 'dd/MM/yyyy')}"></td>
-            </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td th:text="${#temporals.format(employee.dob, 'dd/MM/yyyy')}"></td>
+                </tr>
 
-            <tr>
-                <th>Department</th>
-                <td th:text="${employee.departmentName}"></td>
-            </tr>
+                <tr>
+                    <th>Department</th>
+                    <td th:text="${employee.departmentName}"></td>
+                </tr>
 
-            <tr>
-                <th>Salary</th>
-                <td th:text="${employee.salary}"></td>
-            </tr>
+                <tr>
+                    <th>Salary</th>
+                    <td th:text="${employee.salary}"></td>
+                </tr>
 
-            <tr>
-                <th>Manager</th>
-                <td th:text="${employee.managerName != null ? employee.managerName : '-'}"></td>
-            </tr>
+                <tr>
+                    <th>Manager</th>
+                    <td th:text="${employee.managerName != null ? employee.managerName : '-'}"></td>
+                </tr>
+
+                <tr>
+                    <th>Profile image</th>
+                    <td>
+                        <img th:if="${employee.profileImageBase64 != null}"
+                         th:src="'data:image/jpeg;base64,' + ${employee.profileImageBase64}"
+                         width="120"
+                         alt="Profile image">
+
+                        <span th:if="${employee.profileImageBase64 == null}">
+                            -
+                        </span>
+                    </td>
+                </tr>
             </tbody>
         </table>
 

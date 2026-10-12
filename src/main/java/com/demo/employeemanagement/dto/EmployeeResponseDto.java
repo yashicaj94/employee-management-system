@@ -25,4 +25,6 @@ public class EmployeeResponseDto {
     private Long managerId;
 
     private String managerName;
+
+    private String profileImageBase64;
 }

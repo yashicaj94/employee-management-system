@@ -7,10 +7,17 @@ import com.demo.employeemanagement.exception.ResourceNotFoundException;
 import com.demo.employeemanagement.repository.DepartmentRepository;
 import com.demo.employeemanagement.repository.EmployeeRepository;
 import com.demo.employeemanagement.service.EmployeeService;
-import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -42,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponseDto save(EmployeeRequestDto dto) {
+    public EmployeeResponseDto save(EmployeeRequestDto dto, MultipartFile profileImage) throws IOException {
         Employee employee;
         if (dto.getId() != null) {
             employee = employeeRepository.findById(dto.getId()).orElseThrow(
@@ -70,6 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             employee.setManager(null);
         }
+        if (profileImage != null && !profileImage.isEmpty())
+            employee.setProfileImage(profileImage.getBytes());
 
         employee = employeeRepository.save(employee);
 
@@ -89,6 +98,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getManager() != null) {
             dto.setManagerId(employee.getManager().getId());
             dto.setManagerName(employee.getManager().getFirstName() + " " + employee.getManager().getLastName());
+        }
+        if (employee.getProfileImage() != null
+                && employee.getProfileImage().length > 0) {
+
+            dto.setProfileImageBase64(Base64.getEncoder().encodeToString(employee.getProfileImage()));
         }
         return dto;
     }
