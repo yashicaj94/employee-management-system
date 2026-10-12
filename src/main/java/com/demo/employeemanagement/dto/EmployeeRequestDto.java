@@ -1,6 +1,7 @@
 package com.demo.employeemanagement.dto;
 
 import com.demo.employeemanagement.validation.Adult;
+import com.demo.employeemanagement.validation.UniqueEmployee;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@UniqueEmployee(message = "Employee with the same first name, last name and date of birth already exists")
 public class EmployeeRequestDto {
 
     private Long id;

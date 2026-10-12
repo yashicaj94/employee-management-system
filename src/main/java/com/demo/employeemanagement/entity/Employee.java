@@ -14,7 +14,12 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "employee",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_employee_name_dob",
+                columnNames = {"first_name", "last_name", "dob"}
+        )
+)
 public class Employee {
 
     @Id

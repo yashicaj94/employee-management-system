@@ -7,16 +7,12 @@ import com.demo.employeemanagement.exception.ResourceNotFoundException;
 import com.demo.employeemanagement.repository.DepartmentRepository;
 import com.demo.employeemanagement.repository.EmployeeRepository;
 import com.demo.employeemanagement.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
 
