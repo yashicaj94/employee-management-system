@@ -1,6 +1,7 @@
 package com.demo.employeemanagement.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ public class EmployeeResponseDto {
 
     private String lastName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     private Long departmentId;

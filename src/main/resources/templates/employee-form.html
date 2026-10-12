@@ -37,7 +37,6 @@
         <div class="mb-3">
             <label class="form-label">Date of Birth:</label>
             <input type="date" class="form-control"
-                   th:value="${employee.dob != null ? #temporals.format(employee.dob, 'yyyy-MM-dd') : ''}"
                    th:field="*{dob}"
                    th:max="${#temporals.format(#temporals.createToday().minusDays(1), 'yyyy-MM-dd')}"
                    required/>

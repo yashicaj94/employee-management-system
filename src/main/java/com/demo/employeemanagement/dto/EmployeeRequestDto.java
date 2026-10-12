@@ -4,6 +4,7 @@ import com.demo.employeemanagement.validation.Adult;
 import com.demo.employeemanagement.validation.UniqueEmployee;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class EmployeeRequestDto {
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     @Adult(message = "Age of employee must be at least 18 years")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     @NotNull(message = "Department is required")
