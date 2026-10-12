@@ -1,5 +1,6 @@
 package com.demo.employeemanagement.dto;
 
+import com.demo.employeemanagement.validation.Adult;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class EmployeeRequestDto {
 
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
+    @Adult(message = "Age of employee must be at least 18 years")
     private LocalDate dob;
 
     @NotNull(message = "Department is required")
